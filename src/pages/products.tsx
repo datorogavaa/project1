@@ -25,7 +25,7 @@ export default () => {
             data.map((item: any,index) => {
                 return(
                     <div style={{marginLeft: '40px'}} key={index}>
-                        <h3 style={{color: 'white', width: '200px', cursor: "pointer"}}>{item.title}</h3>
+                        <h3 style={{color: 'white', width: '200px', cursor: "pointer", whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden'}}>{item.title}</h3>
                         <h5  style={{color: 'white'}}>{item.price}$</h5>
                         <img style={{width: '250px', height: '250px', cursor: "pointer"}}  src={item.image}/>
                     </div>
