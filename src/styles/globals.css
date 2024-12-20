@@ -40,3 +40,8 @@ a {
     color-scheme: dark;
   }
 }
+.itemDiv {
+  width: 400px;
+  height: 400px;
+  background-color: red;
+}
