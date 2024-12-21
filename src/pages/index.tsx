@@ -1,6 +1,7 @@
 'use client'
 import { useState, useRef } from "react";
 import Head from 'next/head';
+import Link from 'next/link'; 
 import Button from "@/components/Button"
 export default function Home() {
   const [text,setText] = useState('Selling online is vital to business growth.')
@@ -20,7 +21,9 @@ export default function Home() {
         <p style={{marginTop: '200px', whiteSpace: 'pre-line', color: 'white', fontSize: '18px', fontWeight: '600'}}>{text2}</p>
         </div>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+          <Link href="/products" >
           <Button/>
+          </Link>
           <img style={{width: '1000px', height: '650px', marginTop: '102px', marginLeft: '155px', cursor: 'pointer'}} src="/img.png" alt="logo" />
         </div>
        </div>
