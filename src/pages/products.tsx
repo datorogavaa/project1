@@ -2,15 +2,18 @@
 import axios from "axios"
 import styles from "@/styles/Home.module.css"
 import { useEffect,useState } from "react"
-
+import Pagination from "@/components/Pagination"
+// https://api.escuelajs.co/api/v1/products
 export default () => {
     interface Product {
         title: string;
+        price: string
       }
       
     const [data,setData] = useState<Product[]>([])
     const [sort,setSort] = useState('asc')
     const [limit, setLimit ] = useState('20')
+    const [price, setPrice] = useState('150')
     const funqcia = () => {
         axios.get(`https://fakestoreapi.com/products`).then((response) => {
            setData(response.data.sort((a: any,b: any) => a.title.localeCompare(b.title)))
@@ -34,9 +37,13 @@ export default () => {
                 <option>asc</option>
                 <option>desc</option>
             </select>
-            <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start', alignItems: 'flex-start', marginTop: '50px', marginLeft: '70px'}}>
+            <div>
+            <label style={{color: 'white'}} className="form-label">Price Range <br></br>{price}$</label>
+            <input style={{ width: '200px'}} value={price} onChange={(e) => setPrice(e.target.value)} type="range" className="form-range" min="0" max="150" id="customRange2"></input>
+            </div>
+           <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start', alignItems: 'flex-start', marginTop: '50px', marginLeft: '70px'}}>
             {
-            data.slice(0,Number(limit)).map((item: any) => {
+            data.filter(item => item.price <= price ).slice(0,Number(limit)).map((item: any) => {
                 return(
                     <div style={{
                         marginLeft: '40px'}}>
@@ -48,6 +55,7 @@ export default () => {
                 })
             }
             </div>
+            <Pagination/>
         </div>
     )
 }
