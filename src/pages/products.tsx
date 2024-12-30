@@ -8,11 +8,31 @@ export default () => {
     interface Product {
         title: string;
         price: string
-      }
-      
+    }
+
+    const [limit, setLimit ] = useState(4)
+    const [ currentPage, setCurrentPage ] = useState(1)
     const [data,setData] = useState<Product[]>([])
+    const [pagination, setPagination] = useState({
+        startProductIndex: 0,
+        lastProductIndex: limit
+    });
     const [sort,setSort] = useState('asc')
-    const [limit, setLimit ] = useState('20')
+    const [start, setStart] = useState('0')
+    const [end, setEnd] = useState('4')
+    const paginate = () => {
+        const newLastProductIndex = currentPage * limit;
+        const newStartProductIndex = newLastProductIndex - limit;
+
+        setPagination({
+            startProductIndex: newStartProductIndex,
+            lastProductIndex: newLastProductIndex
+        });
+    };
+    useEffect(paginate,[currentPage,limit])
+    useEffect(() => {
+    }, [pagination.startProductIndex, pagination.lastProductIndex]);
+
     const [price, setPrice] = useState('150')
     const funqcia = () => {
         axios.get(`https://fakestoreapi.com/products`).then((response) => {
@@ -32,7 +52,7 @@ export default () => {
     useEffect(() => sortireba(sort),[sort])
     return (
         <div>
-            <input type="input" value={limit} onChange={(e) => {setLimit(e.target.value)}} />
+            <input type="input" value={limit} onChange={(e) => {setLimit(Number(e.target.value))}} />
             <select value={sort} onChange={(e) => setSort(e.target.value)}>
                 <option>asc</option>
                 <option>desc</option>
@@ -43,7 +63,7 @@ export default () => {
             </div>
            <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start', alignItems: 'flex-start', marginTop: '50px', marginLeft: '70px'}}>
             {
-            data.filter(item => item.price <= price ).slice(0,Number(limit)).map((item: any) => {
+            data.filter(item => item.price <= price ).slice(pagination.startProductIndex,pagination.lastProductIndex).map((item: any) => {
                 return(
                     <div style={{
                         marginLeft: '40px'}}>
@@ -55,7 +75,7 @@ export default () => {
                 })
             }
             </div>
-            <Pagination/>
+            <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
         </div>
     )
 }
