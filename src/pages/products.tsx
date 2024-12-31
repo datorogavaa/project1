@@ -7,10 +7,10 @@ import Pagination from "@/components/Pagination"
 export default () => {
     interface Product {
         title: string;
-        price: string
+        price: string;
     }
 
-    const [limit, setLimit ] = useState(4)
+    const [limit, setLimit ] = useState(8)
     const [ currentPage, setCurrentPage ] = useState(1)
     const [data,setData] = useState<Product[]>([])
     const [pagination, setPagination] = useState({
@@ -18,8 +18,7 @@ export default () => {
         lastProductIndex: limit
     });
     const [sort,setSort] = useState('asc')
-    const [start, setStart] = useState('0')
-    const [end, setEnd] = useState('4')
+    
     const paginate = () => {
         const newLastProductIndex = currentPage * limit;
         const newStartProductIndex = newLastProductIndex - limit;
@@ -35,17 +34,39 @@ export default () => {
 
     const [price, setPrice] = useState('150')
     const funqcia = () => {
-        axios.get(`https://fakestoreapi.com/products`).then((response) => {
-           setData(response.data.sort((a: any,b: any) => a.title.localeCompare(b.title)))
+        Promise.all([
+            axios.get(`https://fakestoreapi.com/products`),
+            axios.get(`https://dummyjson.com/products`)
+            
+        ]).then(([response,response1]) => {
+            const modifResponse = response.data.map((item: any) => ({
+                ...item,
+                images: item.image
+            }))
+            const modifResponse1 = response1.data.products.map((item: any) => ({
+                ...item,
+                images: item.images?.[0]
+            }))
+            const res = [...modifResponse,...modifResponse1]
+            setData(res)
+            console.log(res)
         })
     }
     useEffect(funqcia,[])
     const sortireba = (value: any) => {
         let items = [...data]
         if( value == 'desc') {
-            items = items.sort((a,b) => b.title.localeCompare(a.title))
+            items = items.sort((a,b) => { 
+                const titleA = a.title ?? '';
+                const titleB = b.title ?? ''; 
+                return titleB.localeCompare(titleA)
+        })
         }else if(value == 'asc') {
-            items = items.sort((a,b) => a.title.localeCompare(b.title))
+            items = items.sort((a,b) => { 
+                const titleA = a.title ?? 'BLA';
+                const titleB = b.title ?? 'BLA'; 
+                return titleA.localeCompare(titleB)
+            })
         }
         setData(items)
     }
@@ -69,7 +90,7 @@ export default () => {
                         marginLeft: '40px'}}>
                         <h3 style={{color: 'white', width: '200px', cursor: "pointer", whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden'}}>{item.title}</h3>
                         <h5  style={{color: 'white'}}>{item.price}$</h5>
-                        <img style={{width: '250px', height: '250px'}}  src={item.image}/>
+                        <img style={{width: '370px', height: '350px'}}  src={item.images}/>
                     </div>
                     )
                 })

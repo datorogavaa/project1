@@ -28,7 +28,8 @@ export default({ currentPage, setCurrentPage }: PaginationProps) => {
             <li onClick={(e) => funq(e)} className="page-item"><Link className="page-link" href="#">2</Link></li>
             <li onClick={(e) => funq(e)} className="page-item"><Link className="page-link" href="#">3</Link></li>
             <li onClick={(e) => funq(e)} className="page-item"><Link className="page-link" href="#">4</Link></li>
-
+            <li onClick={(e) => funq(e)} className="page-item"><Link className="page-link" href="#">5</Link></li>
+            <li onClick={(e) => funq(e)} className="page-item"><Link className="page-link" href="#">6</Link></li>
             <li onClick={nextPage} className="page-item">
             <a className="page-link" href="#" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
