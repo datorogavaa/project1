@@ -27,7 +27,7 @@ export default({limit, dataLength, currentPage, setCurrentPage }: PaginationProp
         <nav aria-label="Page navigation example" style={{
             display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10px'
             }}>
-        <ul className="pagination">
+        <ul style={{ display: 'flex', flexWrap: 'wrap'}} className="pagination">
             <li onClick={prevPage} className="page-item">
             <a style={{backgroundColor: '#303030', borderRadius: '20px',marginLeft: '10px', fontWeight: 'bolder'}} className="page-link" href="#" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>

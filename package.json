@@ -14,9 +14,11 @@
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "eslint": "^9.17.0",
+    "lazyload": "^2.0.0-rc.2",
     "next": "15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-lazy-load-image-component": "^1.6.3",
     "react-router-dom": "^7.0.2"
   },
   "devDependencies": {
