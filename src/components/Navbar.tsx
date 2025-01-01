@@ -15,7 +15,7 @@ export default () => {
                 <Link  href="/" className="nav-link" type='button'>Contact</Link>
             </li>
             <li className={`nav-item ${styles.navbar}`}>
-                <Link href="/" className="nav-link" type='button'>About</Link>
+                <Link href="/about" className="nav-link" type='button'>About</Link>
             </li>
         </ul>
     )

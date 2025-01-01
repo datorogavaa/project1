@@ -1,10 +1,12 @@
 import { useState } from "react"
 import Link from "next/link"
 interface PaginationProps {
+    dataLength: any;
+    limit: any;
     currentPage: number;
     setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
-export default({ currentPage, setCurrentPage }: PaginationProps) => {
+export default({limit, dataLength, currentPage, setCurrentPage }: PaginationProps) => {
 
     const funq = (e: any) => {
         setCurrentPage(Number(e.target.innerText))
@@ -15,25 +17,30 @@ export default({ currentPage, setCurrentPage }: PaginationProps) => {
     const nextPage = (e: any) => {
         setCurrentPage(Number(currentPage + 1))
     }
+    let count =  ( dataLength / limit )
+    const pages = []
+    for (let index = 0; index < count; index++) {
+        pages.push(<li onClick={(e) => funq(e)} className="page-item"><Link  style={{backgroundColor: '#303030', 
+            borderRadius: '20px',marginLeft: '10px', fontWeight: 'bolder'}} className="page-link" href="#">{index+1}</Link></li>)
+        }
     return (
-        <nav aria-label="Page navigation example">
+        <nav aria-label="Page navigation example" style={{
+            display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10px'
+            }}>
         <ul className="pagination">
             <li onClick={prevPage} className="page-item">
-            <a className="page-link" href="#" aria-label="Previous">
+            <a style={{backgroundColor: '#303030', borderRadius: '20px',marginLeft: '10px', fontWeight: 'bolder'}} className="page-link" href="#" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
-                <span className="sr-only">Previous</span>
+                <span  className="sr-only"></span>
             </a>
             </li>
-            <li onClick={(e) => funq(e)} className="page-item"><Link className="page-link" href="#">1</Link></li>
-            <li onClick={(e) => funq(e)} className="page-item"><Link className="page-link" href="#">2</Link></li>
-            <li onClick={(e) => funq(e)} className="page-item"><Link className="page-link" href="#">3</Link></li>
-            <li onClick={(e) => funq(e)} className="page-item"><Link className="page-link" href="#">4</Link></li>
-            <li onClick={(e) => funq(e)} className="page-item"><Link className="page-link" href="#">5</Link></li>
-            <li onClick={(e) => funq(e)} className="page-item"><Link className="page-link" href="#">6</Link></li>
-            <li onClick={nextPage} className="page-item">
-            <a className="page-link" href="#" aria-label="Next">
+            
+            {pages}
+
+            <li  onClick={nextPage} className="page-item">
+            <a  style={{backgroundColor: '#303030', borderRadius: '20px',marginLeft: '10px', fontWeight: 'bolder'}} className="page-link" href="#" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
-                <span className="sr-only">Next</span>
+                <span className="sr-only"></span>
             </a>
             </li>
         </ul>

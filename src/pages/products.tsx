@@ -3,22 +3,20 @@ import axios from "axios"
 import styles from "@/styles/Home.module.css"
 import { useEffect,useState } from "react"
 import Pagination from "@/components/Pagination"
-// https://api.escuelajs.co/api/v1/products
 export default () => {
     interface Product {
         title: string;
         price: string;
     }
-
+    const [sort,setSort] = useState('asc')
     const [limit, setLimit ] = useState(8)
     const [ currentPage, setCurrentPage ] = useState(1)
     const [data,setData] = useState<Product[]>([])
+    const [price, setPrice] = useState('150')
     const [pagination, setPagination] = useState({
         startProductIndex: 0,
         lastProductIndex: limit
-    });
-    const [sort,setSort] = useState('asc')
-    
+    });    
     const paginate = () => {
         const newLastProductIndex = currentPage * limit;
         const newStartProductIndex = newLastProductIndex - limit;
@@ -32,7 +30,6 @@ export default () => {
     useEffect(() => {
     }, [pagination.startProductIndex, pagination.lastProductIndex]);
 
-    const [price, setPrice] = useState('150')
     const funqcia = () => {
         Promise.all([
             axios.get(`https://fakestoreapi.com/products`),
@@ -73,7 +70,7 @@ export default () => {
     useEffect(() => sortireba(sort),[sort])
     return (
         <div>
-            <input type="input" value={limit} onChange={(e) => {setLimit(Number(e.target.value))}} />
+            <input type="number" max={8} value={limit}  onChange={(e) => {setLimit(Number(e.target.value))}} />
             <select value={sort} onChange={(e) => setSort(e.target.value)}>
                 <option>asc</option>
                 <option>desc</option>
@@ -96,7 +93,7 @@ export default () => {
                 })
             }
             </div>
-            <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Pagination limit={limit} dataLength={data.filter((item: any) => item.price <= price).length} currentPage={currentPage} setCurrentPage={setCurrentPage} />
         </div>
     )
 }
