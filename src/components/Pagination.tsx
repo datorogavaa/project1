@@ -12,10 +12,14 @@ export default({limit, dataLength, currentPage, setCurrentPage }: PaginationProp
         setCurrentPage(Number(e.target.innerText))
     }
     const prevPage = (e: any) => {
+        if(currentPage !== 1) { 
         setCurrentPage(Number(currentPage - 1))
+        }
     }
     const nextPage = (e: any) => {
-        setCurrentPage(Number(currentPage + 1))
+        if (currentPage < count) {
+            setCurrentPage(Number(currentPage + 1))   
+        }
     }
     let count =  ( dataLength / limit )
     const pages = []

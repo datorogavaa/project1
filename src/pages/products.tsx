@@ -10,7 +10,7 @@ export default () => {
         images: string;
     }
 
-    const [sort, setSort] = useState('asc')
+    const [sort, setSort] = useState('Filter')
     const [limit, setLimit] = useState(8)
     const [currentPage, setCurrentPage] = useState(1)
     const [data, setData] = useState<Product[]>([])
@@ -74,19 +74,23 @@ export default () => {
         }
         setData(items)
     }
-
+    useEffect(() => {
+        if (data.length > 0) {  
+            sortireba(sort)
+        } 
+    },[sort])
     return (
         <div>
-            <input type="input" value={limit} onChange={(e) => { setLimit(Number(e.target.value)) }} />
-            <select value={sort} onChange={(e) => setSort(e.target.value)}>
-                <option>asc</option>
-                <option>desc</option>
-            </select>
-
-            <div>
-                <label style={{ color: 'white' }} className="form-label">Price Range <br />{price}$</label>
+            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center',color: '#0d6efd'}}>
+                <input  style={{borderColor: 'white',height: '30px',borderRadius: '5px',width: '100px', color: '#0d6efd', backgroundColor: '#303030' }}   max={8} min={1} type="number" value={limit} onChange={(e) => { setLimit(Number(e.target.value) || 1 ) }} />
+                <select style={{borderRadius: '5px', borderColor: 'white', height: '30px',width: '300px', color: '#0d6efd', backgroundColor: '#303030' }} value={sort} onChange={(e) => setSort(e.target.value)}>
+                    <option>Choose Filter</option>
+                    <option>asc</option>
+                    <option>desc</option>
+                </select>
+                <label style={{ color: '#0d6efd', marginRight: '10px', marginLeft: '100px' }} className="form-label">Price Range <br /></label>
                 <input
-                    style={{ width: '200px' }}
+                    style={{ width: '200px', color: 'blue', marginRight: '5px' }}
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     type="range"
@@ -95,6 +99,7 @@ export default () => {
                     max="150"
                     id="customRange2"
                 />
+                {price}$
             </div>
 
             <div style={{
@@ -107,7 +112,7 @@ export default () => {
             }}>
                 {
                     loading ? (
-                        <div>Loading...</div>
+                        <div style={{marginLeft: '865px',color: 'white'}}>Loading...</div>
                     ) : (
                         data.filter(item => item.price <= price).slice(pagination.startProductIndex, pagination.lastProductIndex).map((item: any) => {
                             return (
